@@ -3,28 +3,28 @@
 
 template <class T>
 struct Array {
-	const size_t Length;
-	T* const Data;
+    const size_t Length;
+    T* const Data;
 
-	T& operator [](size_t i) {
-		return Data[i];
-	}
+    T& operator [](size_t i) {
+        return Data[i];
+    }
 
-	bool operator ==(const Array<T> &OtherArray) const {
+    bool operator ==(const Array<T> &OtherArray) const {
         size_t minLen = MIN(Length, OtherArray.Length);
         for (size_t i = 0; i < minLen; i++) {
             if (Data[i] != OtherArray.Data[i]) return false;
         }
         return true;
-	}
+    }
 
-	Array(size_t Size, T Data[])
-		: Length(Size), Data(Data) {}
+    Array(size_t Size, T Data[])
+        : Length(Size), Data(Data) {}
 
-	Array(size_t Size)
-		: Array(Size, new T[Size]) {}
+    Array(size_t Size)
+        : Array(Size, new T[Size]) {}
 
-	inline void Fill(T value) {
-		for (size_t i = 0; i < Length; i++) Data[i] = value;
-	}
+    inline void Fill(T value) {
+        for (size_t i = 0; i < Length; i++) Data[i] = value;
+    }
 };
