@@ -1,5 +1,5 @@
 // Note: Templates (like the following) are only available when the file is #included not compiled.
-//       In our case, this is fine, because we do a unity build.
+//       This is not a problem when doing a unity build.
 
 template <class T>
 struct Array {
