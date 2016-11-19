@@ -1,32 +1,23 @@
 
-template <class T, size_t MaxCount>
+template <class T>
 struct Stack {
-    T Data[MaxCount];
+    Array<T> Data;
     size_t Count;
 
-    size_t Length()
-    {
-        return MaxCount;
-    }
+    T &operator [](size_t i) { return Data[i]; }
 
-    T& operator [](size_t i)
-    {
-        return Data[i];
-    }
+    T &Current() { return Data[Count - 1]; }
 
-    T& Current()
-    {
-        return Data[Count - 1];
-    }
+	T *Index_ptr() { return &Data[Count]; }
 
-    Stack()
-    {
-        Count = 0;
-    }
+    Stack(size_t Length) : Data(Length) { Count = 0; }
+
+	bool isFull()  { return (Count >= Data.Length); }
+	bool isEmpty() { return (Count == 0); }
 
     bool Add(T item)
     {
-        if (Count >= MaxCount) return false;
+        if (isFull()) return false;
         
         Data[Count++] = item;
         return true;
@@ -34,7 +25,7 @@ struct Stack {
 
     bool Remove()
     {
-        if (Count == 0) return false;
+        if (isEmpty()) return false;
 
         Count--;
         return true;

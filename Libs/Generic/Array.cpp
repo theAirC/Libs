@@ -3,33 +3,38 @@
 
 template <class T>
 struct Array {
+private:
+	const bool owned;
+public:
     const size_t Length;
-    T* const Data;
+    T* const Raw;
 
     T& operator [](size_t i)
     {
-        return Data[i];
+        return Raw[i];
     }
 
     bool operator ==(Array<T> &OtherArray)
     {
-        size_t minLen = MIN(Length, OtherArray.Length);
+        size_t minLen = Math::min(Length, OtherArray.Length);
         for (size_t i = 0; i < minLen; i++) {
-            if (Data[i] != OtherArray.Data[i]) return false;
+            if (Raw[i] != OtherArray.Raw[i]) return false;
         }
         return true;
     }
 
-    Array(size_t Size, T Data[])
-        : Length(Size), Data(Data)
+    Array(size_t Size, T Raw[])
+        : Length(Size), Raw(Raw), owned(false)
     {}
 
     Array(size_t Size)
-        : Array(Size, new T[Size])
+        : Length(Size), Raw(new T[Size]), owned(true)
     {}
+
+	~Array() { if (owned) delete Raw; }
 
     void Fill(T value)
     {
-        for (size_t i = 0; i < Length; i++) Data[i] = value;
+        for (size_t i = 0; i < Length; i++) Raw[i] = value;
     }
 };

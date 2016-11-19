@@ -4,6 +4,9 @@ struct BitPointer
     u32* Register;
     u32 BitMask;
 
+	BitPointer(u32* Register, u32 BitMask) : Register(Register), BitMask(BitMask) {}
+	BitPointer() : BitPointer(nullptr, 0) {}
+
     u32 Get()
     {
         return (*Register) & BitMask;
@@ -26,20 +29,16 @@ struct BitPointer
 // Bits in bundles of 32
 struct Bits
 {
-    const size_t Count;
+    const size_t Length;
     Array<u32> Raw;
 
-    Bits(size_t Count)
-        : Count(Count),
-          Raw(upperdiv(Count, 32))
+    Bits(size_t Length)
+        : Length(Length), Raw(upperdiv(Length, 32))
     {}
 
     BitPointer GetPointer(const size_t Index)
     {
-        BitPointer me;
-        me.Register = &(Raw[Index / 32]);
-        me.BitMask = (1 << (Index % 32));
-        return me;
+        return BitPointer(&(Raw[Index / 32]), (1 << (Index % 32)));
     }
 
     u32 Get(const size_t Index)
